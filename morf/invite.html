@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>You're invited to Morf</title>
+<meta name="description" content="A friend invited you to play their Morf levels free.">
+<meta property="og:title" content="You're invited to Morf">
+<meta property="og:description" content="A friend invited you to play their Morf levels free, for good.">
+<meta property="og:image" content="https://ijgames.github.io/img/morf-icon.png">
+<link rel="icon" href="../img/morf-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #040707; --panel: #1f2b3a; --text: #f6f4f5; --muted: #9aa6b2; --blue: #4aa3dc; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 Nunito, system-ui, sans-serif; }
+  main { max-width: 520px; margin: 0 auto; padding: 48px 16px 32px; text-align: center; }
+  img.icon { width: 96px; height: 96px; border-radius: 22px; }
+  h1 { font-family: Fredoka, Nunito, sans-serif; font-weight: 600; line-height: 1.2; font-size: 1.9rem; margin: 20px 0 8px; }
+  p { margin: 0 0 16px; }
+  .muted { color: var(--muted); font-size: 0.95rem; }
+  .buttons { display: flex; flex-direction: column; gap: 12px; margin: 28px 0 20px; }
+  .button { display: block; padding: 14px 18px; border-radius: 14px; font-weight: 600; text-decoration: none; font-size: 1.05rem; }
+  .primary { background: #fff; color: #13243a; }
+  .secondary { border: 2px solid #3b5577; color: var(--text); }
+  a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="../img/morf-icon.png" alt="Morf">
+  <h1>You're invited to Morf</h1>
+
+  <div id="invite">
+    <p>A friend invited you to play their Morf levels free, for good: no ads, no Pro needed.</p>
+    <div class="buttons">
+      <a id="open" class="button primary" href="#">Open in Morf</a>
+      <a id="store" class="button secondary" href="https://play.google.com/store/apps/details?id=com.ijgames.morf">Get Morf on Google Play</a>
+    </div>
+    <p class="muted">No Morf yet? Get it on Google Play, then open it: your invite is waiting there.</p>
+    <p class="muted" id="other" hidden>Morf is on Android. Open this link on your Android phone.</p>
+  </div>
+
+  <div id="broken" hidden>
+    <p>This invite link is missing its code. Ask your friend to send it again.</p>
+    <div class="buttons">
+      <a class="button secondary" href="https://play.google.com/store/apps/details?id=com.ijgames.morf">Morf on Google Play</a>
+    </div>
+  </div>
+</main>
+<script>
+  // The code from ?c=CODE goes to Morf, either straight (Open in Morf) or through Google Play,
+  // which hands it to Morf on its first launch (the install referrer).
+  var code = (new URLSearchParams(location.search).get("c") || "").replace(/[^A-Za-z0-9]/g, "").slice(0, 32);
+  var store = "https://play.google.com/store/apps/details?id=com.ijgames.morf";
+  if (!code) {
+    document.getElementById("invite").hidden = true;
+    document.getElementById("broken").hidden = false;
+  } else {
+    var withReferrer = store + "&referrer=" + encodeURIComponent("invite=" + code);
+    document.getElementById("store").href = withReferrer;
+    var open = document.getElementById("open");
+    if (/Android/i.test(navigator.userAgent)) {
+      // Opens Morf; when it isn't installed, Chrome goes to Google Play instead.
+      open.href = "intent://invite?c=" + code + "#Intent;scheme=morf;package=com.ijgames.morf;S.browser_fallback_url="
+        + encodeURIComponent(withReferrer) + ";end";
+    } else {
+      open.hidden = true;
+      document.getElementById("other").hidden = false;
+    }
+  }
+</script>
+</body>
+</html>

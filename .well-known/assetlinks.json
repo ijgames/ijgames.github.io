@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.ijgames.morf",
+      "sha256_cert_fingerprints": [
+        "AA:17:FB:05:89:9F:E5:CF:24:C7:88:95:39:1E:04:EB:F3:40:92:E6:FC:EA:3B:49:EF:A1:16:C4:DC:DF:99:0D",
+        "9E:42:E3:7E:1C:CE:5B:20:CB:A2:88:F7:00:A8:C5:00:98:01:EC:04:15:4B:B8:D7:BB:33:D1:5F:74:BB:B0:D8"
+      ]
+    }
+  }
+]
